@@ -1,0 +1,12 @@
+[MASTER]
+load-plugins=pylint_django
+django-settings-module=setup.settings
+
+[MESSAGE CONTROL]
+# Desabilita alguns warnings comuns do Django que são falsos positivos
+disable=
+    missing-docstring,
+    too-few-public-methods
+
+[DJANGO]
+django-settings-module=setup.settings
