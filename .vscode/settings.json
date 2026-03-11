@@ -1,0 +1,8 @@
+{
+  "python.envFile": "${workspaceFolder}/.env",
+  "python.analysis.extraPaths": ["${workspaceFolder}"],
+  "pylint.args": [
+    "--load-plugins=pylint_django",
+    "--django-settings-module=setup.settings"
+  ]
+}
