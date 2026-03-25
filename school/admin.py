@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from school.models.courses import Course
 from school.models.students import Student
+from school.models import Enrollment
 
 
 class Students(admin.ModelAdmin):
@@ -24,3 +25,11 @@ class Courses(admin.ModelAdmin):
 
 
 admin.site.register(Course, Courses)
+
+
+class Enrollments(admin.ModelAdmin):
+    list_display = ("id", "student", "course", "period")
+    list_display_links = ("id",)
+
+
+admin.site.register(Enrollment, Enrollments)
