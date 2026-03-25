@@ -20,4 +20,4 @@ class Enrollment(models.Model):
     )
 
     def __str__(self):
-        return f"Enrollment - estudent: {self.student} | course: {self.course}"
+        return f"{self.student} | {self.course}"
