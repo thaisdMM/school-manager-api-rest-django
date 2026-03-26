@@ -24,3 +24,29 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         # You can exclude some fields
         # in the example below, none were excluded
         exclude = []
+
+
+class ListEnrollmentsStudentSerializer(serializers.ModelSerializer):
+    course = serializers.ReadOnlyField(source="course.description")
+    period = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Enrollment
+        fields = ["course", "period"]
+
+    def get_period(self, obj):
+        """
+        Return the human-readable value of the 'period' field.
+
+        Uses Django's built-in get_<field>_display() method to convert
+        the stored choice value (e.g., 'M') into ist display label (e.g., 'Morning')
+        """
+        return obj.get_period_display()
+
+
+class ListEnrollmentsCourseSerializer(serializers.ModelSerializer):
+    student_name = serializers.ReadOnlyField(source="student.name")
+
+    class Meta:
+        model = Enrollment
+        fields = ["student_name"]
