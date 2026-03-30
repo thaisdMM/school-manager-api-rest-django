@@ -22,8 +22,17 @@ class StudentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("CPF must be only digits!")
         if len(cpf) != 11:
             raise serializers.ValidationError("CPF must be 11 digits!")
-
         return cpf
+
+    def validate_name(self, name):
+        if not name.isalpha():
+            raise serializers.ValidationError("Name can be only letters.")
+        return name
+
+    def validate_phone_number(self, phone_number):
+        if len(phone_number) != 13:
+            raise serializers.ValidationError("Phone number must be 13 digits.")
+        return phone_number
 
 
 class CourseSerializer(serializers.ModelSerializer):
