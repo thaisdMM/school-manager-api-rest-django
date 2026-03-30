@@ -10,29 +10,23 @@ class StudentSerializer(serializers.ModelSerializer):
         # You can select especific fields
         fields = ["id", "name", "email", "cpf", "date_of_birth", "phone_number"]
 
-    def validate_cpf(self, cpf):
+    def validate(self, data):
         """
-        Validate CPF field during serialize input validation before saving.
-
-        This method runs when data is received from a request.
-        It checks if the CPF contains only numbers and
-        is exactly 11 characters before the data is saved.
+        Validate data field during serializer input validation before saving.
         """
-        if not cpf.isdigit():
-            raise serializers.ValidationError("CPF must be only digits!")
-        if len(cpf) != 11:
-            raise serializers.ValidationError("CPF must be 11 digits!")
-        return cpf
-
-    def validate_name(self, name):
-        if not name.isalpha():
-            raise serializers.ValidationError("Name can be only letters.")
-        return name
-
-    def validate_phone_number(self, phone_number):
-        if len(phone_number) != 13:
-            raise serializers.ValidationError("Phone number must be 13 digits.")
-        return phone_number
+        if not data["cpf"].isdigit():
+            raise serializers.ValidationError({"cpf": "CPF must be only digits!"})
+        if len(data["cpf"]) != 11:
+            raise serializers.ValidationError({"cpf": "CPF must be 11 digits!"})
+        if not data["name"].isalpha():
+            raise serializers.ValidationError(
+                {"name": "Name cannot be alpha - name must be only letters."}
+            )
+        if len(data["phone_number"]) != 13:
+            raise serializers.ValidationError(
+                {"phone_number": "Phone number must be 13 digits."}
+            )
+        return data
 
 
 class CourseSerializer(serializers.ModelSerializer):
