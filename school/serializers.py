@@ -2,6 +2,7 @@ from rest_framework import serializers
 from school.models.students import Student
 from school.models.courses import Course
 from school.models.enrollments import Enrollment
+from school.validators import validate_cpf, validate_name, validate_phone_number
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -10,23 +11,23 @@ class StudentSerializer(serializers.ModelSerializer):
         # You can select especific fields
         fields = ["id", "name", "email", "cpf", "date_of_birth", "phone_number"]
 
-    def validate(self, data):
-        """
-        Validate data field during serializer input validation before saving.
-        """
-        if not data["cpf"].isdigit():
-            raise serializers.ValidationError({"cpf": "CPF must be only digits!"})
-        if len(data["cpf"]) != 11:
-            raise serializers.ValidationError({"cpf": "CPF must be 11 digits!"})
-        if not data["name"].isalpha():
-            raise serializers.ValidationError(
-                {"name": "Name cannot be alpha - name must be only letters."}
-            )
-        if len(data["phone_number"]) != 13:
-            raise serializers.ValidationError(
-                {"phone_number": "Phone number must be 13 digits."}
-            )
-        return data
+    def validate_cpf(self, value: str) -> str:
+        """Validate CPF field during serializer input validation before saving,
+        using centralized validator."""
+        validate_cpf(value)
+        return value
+
+    def validate_name(self, value: str) -> str:
+        """Validate name field during serializer input validation before saving,
+        using centralized validator."""
+        validate_name(value)
+        return value
+
+    def validate_phone_number(self, value):
+        """Validate phone_number field during serializer input validation before saving,
+        using centralized validator."""
+        validate_phone_number(value)
+        return value
 
 
 class CourseSerializer(serializers.ModelSerializer):
